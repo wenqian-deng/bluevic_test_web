@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Blog articles - Explore web development insights, filter by category, and search articles.">
+    <title>Blog | Blue vic Test Web</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+      .blog-card {
+        transition: box-shadow 0.3s, transform 0.3s;
+      }
+      .blog-card:hover {
+        box-shadow: 0 8px 32px 0 rgba(30,58,138,0.15);
+        transform: translateY(-5px);
+      }
+      .blog-card .blog-img {
+        transition: transform 0.3s;
+      }
+      .blog-card:hover .blog-img {
+        transform: scale(1.05);
+      }
+      .filter-tag {
+        transition: background 0.2s, color 0.2s;
+      }
+      .filter-tag.selected {
+        background: #3B82F6;
+        color: #fff;
+      }
+      .filter-tag:not(.selected) {
+        background: #F3F4F6;
+        color: #4B5563;
+      }
+      .pagination-btn {
+        transition: background 0.2s, color 0.2s;
+      }
+      .pagination-btn.current {
+        background: #3B82F6;
+        color: #fff;
+      }
+      .pagination-btn:not(.current) {
+        background: #F3F4F6;
+        color: #111827;
+      }
+      .pagination-btn:focus {
+        outline: 2px solid #3B82F6;
+      }
+      .fade {
+        transition: opacity 0.4s;
+        opacity: 1;
+      }
+      .fade-out {
+        opacity: 0;
+      }
+      .fade-in {
+        opacity: 1;
+      }
+      .search-clear {
+        cursor: pointer;
+        color: #4B5563;
+        transition: color 0.2s;
+      }
+      .search-clear:hover {
+        color: #3B82F6;
+      }
+    </style>
+</head>
+<body class="bg-white text-gray-900">
+    <!-- 导航栏 -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <a href="/" class="flex items-center space-x-2">
+                    <i class="fas fa-code text-primary-600 text-2xl"></i>
+                    <span class="font-montserrat font-bold text-xl">Blue vic Test Web</span>
+                </a>
+                <!-- 桌面端导航菜单 -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-primary-600 transition-colors">Home</a>
+                    <a href="about.html" class="text-gray-700 hover:text-primary-600 transition-colors">About</a>
+                    <a href="projects.html" class="text-gray-700 hover:text-primary-600 transition-colors">Projects</a>
+                    <a href="blog.html" class="text-primary-600 font-semibold transition-colors">Blog</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-primary-600 transition-colors">Contact</a>
+                </div>
+                <!-- 移动端汉堡菜单按钮 -->
+                <button class="md:hidden text-gray-700 hover:text-primary-600 transition-colors" aria-label="Open menu">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 页面标题区域 -->
+    <section class="pt-24 pb-16">
+        <div class="container mx-auto px-4">
+            <h1 class="text-4xl md:text-5xl font-montserrat font-bold text-[#111827] text-center mb-4">Blog Articles</h1>
+            <p class="text-lg text-[#4B5563] text-center mb-16">Insights, tutorials, and stories from my journey in web development.</p>
+        </div>
+    </section>
+
+    <!-- 搜索和筛选区域 -->
+    <section class="mb-12">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row md:items-center md:space-x-6 gap-4">
+            <!-- 搜索框 -->
+            <div class="flex-1 flex items-center bg-[#F3F4F6] border border-[#E5E7EB] rounded-[6px] px-4 py-2 relative">
+                <i class="fas fa-search text-[#4B5563] mr-2"></i>
+                <input id="searchInput" type="text" placeholder="Search articles..." class="flex-1 bg-transparent outline-none text-base text-[#111827] placeholder-[#9CA3AF]" aria-label="Search articles">
+                <span id="searchClear" class="search-clear absolute right-4 hidden"><i class="fas fa-times-circle"></i></span>
+            </div>
+            <!-- 标签筛选器 -->
+            <div class="flex flex-nowrap space-x-2 overflow-x-auto md:overflow-visible pt-2 md:pt-0">
+                <button class="filter-tag selected px-4 py-2 rounded-full text-sm font-medium focus:outline-none" data-filter="all">All</button>
+                <button class="filter-tag px-4 py-2 rounded-full text-sm font-medium focus:outline-none" data-filter="frontend">Frontend</button>
+                <button class="filter-tag px-4 py-2 rounded-full text-sm font-medium focus:outline-none" data-filter="backend">Backend</button>
+                <button class="filter-tag px-4 py-2 rounded-full text-sm font-medium focus:outline-none" data-filter="uiux">UI/UX</button>
+                <button class="filter-tag px-4 py-2 rounded-full text-sm font-medium focus:outline-none" data-filter="career">Career</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 文章列表 -->
+    <main class="container mx-auto px-4">
+        <div id="blogList" class="space-y-8 mb-16">
+            <!-- 示例文章1 -->
+            <article class="blog-card flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden fade" data-category="frontend">
+                <div class="relative w-full md:w-2/5 aspect-w-16 aspect-h-9 bg-gray-900 flex-shrink-0">
+                    <picture>
+                        <source srcset="assets/card1.png" type="image/png">
+                        <img src="assets/card1.png" alt="Modern JavaScript Features" class="blog-img w-full h-full object-cover rounded-lg md:rounded-none md:rounded-l-lg">
+                    </picture>
+                </div>
+                <div class="flex-1 flex flex-col justify-between p-6 md:pl-8">
+                    <div class="flex flex-wrap items-center gap-2 mb-2">
+                        <span class="text-xs px-2 py-1 rounded-full bg-[#3B82F6] text-white">Frontend Development</span>
+                        <span class="text-xs text-[#4B5563]">2024-02-15</span>
+                    </div>
+                    <h2 class="text-xl font-bold text-[#111827] mb-2 hover:text-[#3B82F6] transition-colors">Modern JavaScript Features</h2>
+                    <p class="text-[15px] text-[#4B5563] mb-4 line-clamp-3">Exploring the latest features in JavaScript and how to use them effectively in your projects. Learn about ES2021, optional chaining, nullish coalescing, and more.</p>
+                    <div class="flex items-center justify-between mt-auto">
+                        <div class="flex items-center gap-4 text-[#4B5563] text-sm">
+                            <span><i class="fas fa-eye mr-1"></i> 1,234</span>
+                            <span><i class="fas fa-comments mr-1"></i> 12</span>
+                        </div>
+                        <a href="blog-detail.html" class="text-[#3B82F6] hover:text-[#1E3A8A] font-medium transition-colors">Read More <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+            </article>
+            <!-- 示例文章2 -->
+            <article class="blog-card flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden fade" data-category="uiux">
+                <div class="relative w-full md:w-2/5 aspect-w-16 aspect-h-9 bg-gray-900 flex-shrink-0">
+                    <picture>
+                        <source srcset="assets/card2.png" type="image/png">
+                        <img src="assets/card2.png" alt="Building Responsive UIs" class="blog-img w-full h-full object-cover rounded-lg md:rounded-none md:rounded-l-lg" loading="lazy">
+                    </picture>
+                </div>
+                <div class="flex-1 flex flex-col justify-between p-6 md:pl-8">
+                    <div class="flex flex-wrap items-center gap-2 mb-2">
+                        <span class="text-xs px-2 py-1 rounded-full bg-[#3B82F6] text-white">UI/UX</span>
+                        <span class="text-xs text-[#4B5563]">2024-01-28</span>
+                    </div>
+                    <h2 class="text-xl font-bold text-[#111827] mb-2 hover:text-[#3B82F6] transition-colors">Building Responsive UIs</h2>
+                    <p class="text-[15px] text-[#4B5563] mb-4 line-clamp-3">Best practices for creating responsive and accessible user interfaces. Tips for mobile-first design, accessibility, and performance.</p>
+                    <div class="flex items-center justify-between mt-auto">
+                        <div class="flex items-center gap-4 text-[#4B5563] text-sm">
+                            <span><i class="fas fa-eye mr-1"></i> 987</span>
+                            <span><i class="fas fa-comments mr-1"></i> 8</span>
+                        </div>
+                        <a href="blog-detail.html" class="text-[#3B82F6] hover:text-[#1E3A8A] font-medium transition-colors">Read More <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+            </article>
+            <!-- 更多文章可按需添加 -->
+        </div>
+        <!-- 无结果提示 -->
+        <div id="noResult" class="hidden text-center text-[#4B5563] text-lg py-12">No articles found for your search or filter.</div>
+        <!-- 分页控件 -->
+        <nav class="flex justify-center items-center gap-2 mb-16" aria-label="Pagination">
+            <button class="pagination-btn rounded-full w-10 h-10 flex items-center justify-center" aria-label="Previous page"><i class="fas fa-chevron-left"></i></button>
+            <button class="pagination-btn rounded-full w-10 h-10 flex items-center justify-center current">1</button>
+            <button class="pagination-btn rounded-full w-10 h-10 flex items-center justify-center">2</button>
+            <span class="text-[#4B5563]">...</span>
+            <button class="pagination-btn rounded-full w-10 h-10 flex items-center justify-center">5</button>
+            <button class="pagination-btn rounded-full w-10 h-10 flex items-center justify-center" aria-label="Next page"><i class="fas fa-chevron-right"></i></button>
+        </nav>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- 联系信息 -->
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Contact Info</h3>
+                    <ul class="space-y-2">
+                        <li><i class="fas fa-envelope mr-2"></i> contact@example.com</li>
+                        <li><i class="fas fa-phone mr-2"></i> +1 234 567 890</li>
+                        <li><i class="fas fa-map-marker-alt mr-2"></i> New York, USA</li>
+                    </ul>
+                </div>
+                <!-- 快速链接 -->
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="hover:text-primary-400 transition-colors">Home</a></li>
+                        <li><a href="about.html" class="hover:text-primary-400 transition-colors">About</a></li>
+                        <li><a href="projects.html" class="hover:text-primary-400 transition-colors">Projects</a></li>
+                        <li><a href="blog.html" class="hover:text-primary-400 transition-colors">Blog</a></li>
+                    </ul>
+                </div>
+                <!-- 社交媒体 -->
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Follow Me</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-2xl hover:text-primary-400 transition-colors" aria-label="Github"><i class="fab fa-github"></i></a>
+                        <a href="#" class="text-2xl hover:text-primary-400 transition-colors" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="text-2xl hover:text-primary-400 transition-colors" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-2xl hover:text-primary-400 transition-colors" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p>&copy; 2024 Blue vic Test Web. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Custom JavaScript -->
+    <script src="js/main.js"></script>
+    <script>
+      // 搜索和筛选功能
+      const searchInput = document.getElementById('searchInput');
+      const searchClear = document.getElementById('searchClear');
+      const filterTags = document.querySelectorAll('.filter-tag');
+      const blogList = document.getElementById('blogList');
+      const articles = Array.from(blogList.children);
+      const noResult = document.getElementById('noResult');
+      // 搜索功能
+      searchInput.addEventListener('input', function() {
+        const val = this.value.trim().toLowerCase();
+        searchClear.style.display = val ? 'block' : 'none';
+        let hasResult = false;
+        articles.forEach(article => {
+          const text = article.textContent.toLowerCase();
+          if (text.includes(val)) {
+            article.style.display = '';
+            hasResult = true;
+          } else {
+            article.style.display = 'none';
+          }
+        });
+        noResult.style.display = hasResult ? 'none' : 'block';
+      });
+      searchClear.addEventListener('click', function() {
+        searchInput.value = '';
+        searchInput.dispatchEvent(new Event('input'));
+        searchInput.focus();
+      });
+      // 标签筛选
+      document.querySelector('.flex-nowrap').addEventListener('click', function(e) {
+        if (e.target.classList.contains('filter-tag')) {
+          filterTags.forEach(tag => tag.classList.remove('selected'));
+          e.target.classList.add('selected');
+          const filter = e.target.dataset.filter;
+          let hasResult = false;
+          articles.forEach(article => {
+            article.classList.add('fade-out');
+            setTimeout(() => {
+              if (filter === 'all' || article.dataset.category === filter) {
+                article.style.display = '';
+                setTimeout(() => article.classList.remove('fade-out'), 10);
+                hasResult = true;
+              } else {
+                article.style.display = 'none';
+              }
+              noResult.style.display = hasResult ? 'none' : 'block';
+            }, 400);
+          });
+        }
+      });
+    </script>
+</body>
+</html> 

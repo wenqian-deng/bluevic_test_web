@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Blog article detail - in-depth web development tutorial with code, images, and best practices.">
+  <title>Modern JavaScript Features | Blog | Blue vic Test Web</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <!-- PrismJS for code highlight -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .blog-content h2 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #111827;
+      margin-top: 2.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+    }
+    .blog-content h2 .section-num {
+      display: inline-block;
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: #3B82F6;
+      margin-right: 0.75rem;
+    }
+    .blog-content p {
+      margin-bottom: 1.5rem;
+      color: #111827;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    .blog-content pre {
+      background: #1E293B;
+      color: #E2E8F0;
+      border-radius: 6px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.98rem;
+      overflow-x: auto;
+      position: relative;
+    }
+    .blog-content code {
+      background: none;
+      color: inherit;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.98rem;
+    }
+    .blog-content .token.comment,
+    .blog-content .token.prolog,
+    .blog-content .token.doctype,
+    .blog-content .token.cdata {
+      color: #4B5563;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 0.75rem;
+      right: 1rem;
+      background: #3B82F6;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.85rem;
+      cursor: pointer;
+      opacity: 0.85;
+      transition: background 0.2s, opacity 0.2s;
+      z-index: 2;
+    }
+    .copy-btn:hover, .copy-btn:focus {
+      background: #1E3A8A;
+      opacity: 1;
+      outline: 2px solid #3B82F6;
+    }
+    .copy-success {
+      position: absolute;
+      top: 0.75rem;
+      right: 6.5rem;
+      background: #22c55e;
+      color: #fff;
+      border-radius: 4px;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.85rem;
+      opacity: 0.95;
+      z-index: 2;
+      pointer-events: none;
+      animation: fadeOut 1.2s forwards;
+    }
+    @keyframes fadeOut {
+      0% { opacity: 0.95; }
+      80% { opacity: 0.95; }
+      100% { opacity: 0; }
+    }
+    .editor-img {
+      border-radius: 8px;
+      box-shadow: 0 4px 24px 0 rgba(30,41,59,0.10);
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      background: #1E293B;
+      cursor: zoom-in;
+      transition: transform 0.3s;
+    }
+    .editor-img:active {
+      transform: scale(1.04);
+    }
+    .img-modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0; width: 100vw; height: 100vh;
+      background: rgba(17,24,39,0.85);
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.3s;
+    }
+    .img-modal.open {
+      display: flex;
+      animation: fadeIn 0.3s;
+    }
+    .img-modal img {
+      max-width: 90vw;
+      max-height: 80vh;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px 0 rgba(30,41,59,0.25);
+      background: #1E293B;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .back-to-top {
+      position: fixed;
+      right: 2rem;
+      bottom: 2rem;
+      z-index: 100;
+      background: #3B82F6;
+      color: #fff;
+      border-radius: 50%;
+      width: 3rem;
+      height: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px 0 rgba(30,58,138,0.15);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .back-to-top.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    @media (max-width: 1024px) {
+      .blog-content {
+        max-width: 90vw;
+      }
+      .blog-content h2 {
+        font-size: 1.25rem;
+      }
+    }
+    @media (max-width: 768px) {
+      .blog-content {
+        max-width: 98vw;
+        font-size: 0.97rem;
+      }
+      .blog-content h2 {
+        font-size: 1.1rem;
+      }
+      .editor-img {
+        aspect-ratio: 16/10;
+      }
+    }
+  </style>
+</head>
+<body class="bg-white text-gray-900">
+  <!-- 导航栏 -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
+    <div class="container mx-auto px-4">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo -->
+        <a href="/" class="flex items-center space-x-2">
+          <i class="fas fa-code text-primary-600 text-2xl"></i>
+          <span class="font-montserrat font-bold text-xl">Blue vic Test Web</span>
+        </a>
+        <!-- 桌面端导航菜单 -->
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="index.html" class="text-gray-700 hover:text-primary-600 transition-colors">Home</a>
+          <a href="about.html" class="text-gray-700 hover:text-primary-600 transition-colors">About</a>
+          <a href="projects.html" class="text-gray-700 hover:text-primary-600 transition-colors">Projects</a>
+          <a href="blog.html" class="text-primary-600 font-semibold transition-colors">Blog</a>
+          <a href="contact.html" class="text-gray-700 hover:text-primary-600 transition-colors">Contact</a>
+        </div>
+        <!-- 移动端汉堡菜单按钮 -->
+        <button class="md:hidden text-gray-700 hover:text-primary-600 transition-colors" aria-label="Open menu">
+          <i class="fas fa-bars text-xl"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-24 pb-16 flex flex-col items-center min-h-screen">
+    <div class="w-full flex flex-col items-center px-4">
+      <!-- 返回链接 -->
+      <div class="w-full max-w-3xl mb-8">
+        <a href="blog.html" class="inline-flex items-center text-[#3B82F6] hover:text-[#1E3A8A] font-medium transition-colors">
+          <i class="fas fa-arrow-left mr-2"></i> Back to Blog List
+        </a>
+      </div>
+      <!-- 文章头部信息 -->
+      <div class="w-full max-w-3xl mb-8">
+        <div class="flex flex-col gap-2 mb-4">
+          <span class="text-sm text-[#4B5563]">2024-02-15 · 8 min read</span>
+          <h1 class="text-3xl md:text-4xl font-bold text-[#111827] mb-2">Modern JavaScript Features</h1>
+          <div class="flex items-center gap-6 text-[#4B5563] text-sm">
+            <span><i class="fas fa-eye mr-1"></i> 1,234</span>
+            <span><i class="fas fa-comments mr-1"></i> 12</span>
+          </div>
+        </div>
+        <!-- 特色图片 -->
+        <div class="relative w-full mb-8">
+          <picture>
+            <source srcset="assets/project1.png" type="image/png">
+            <img src="assets/project1.png" alt="Modern JavaScript Features - code editor screenshot" class="editor-img" loading="lazy" tabindex="0">
+          </picture>
+        </div>
+      </div>
+      <!-- 文章正文 -->
+      <article class="blog-content w-full max-w-3xl mx-auto">
+        <h2><span class="section-num">1</span> Introduction</h2>
+        <p>JavaScript is constantly evolving, and each new version brings powerful features that make development easier and more efficient. In this article, we'll explore some of the most useful modern JavaScript features you should know.</p>
+        <h2><span class="section-num">2</span> Optional Chaining</h2>
+        <p>Optional chaining allows you to safely access deeply nested properties without having to check each level manually.</p>
+        <pre class="language-js" aria-label="Optional chaining example"><button class="copy-btn" aria-label="Copy code">Copy</button><code class="language-js">const user = {
+  profile: {
+    name: 'Alice',
+    address: null
+  }
+};
+
+// Old way
+const city = user &amp;&amp; user.profile &amp;&amp; user.profile.address &amp;&amp; user.profile.address.city;
+
+// Modern way
+const city = user?.profile?.address?.city;
+</code></pre>
+        <h2><span class="section-num">3</span> Nullish Coalescing</h2>
+        <p>The nullish coalescing operator (<code>??</code>) lets you provide a default value only when the left-hand side is <code>null</code> or <code>undefined</code>.</p>
+        <pre class="language-js" aria-label="Nullish coalescing example"><button class="copy-btn" aria-label="Copy code">Copy</button><code class="language-js">const input = '';
+const value = input ?? 'Default'; // value is '' (not null or undefined)
+</code></pre>
+        <h2><span class="section-num">4</span> Conclusion</h2>
+        <p>Modern JavaScript features like optional chaining and nullish coalescing help you write cleaner, safer code. Stay updated with the latest ECMAScript standards to make the most of your development experience!</p>
+      </article>
+    </div>
+  </main>
+
+  <!-- 返回顶部按钮 -->
+  <button id="backToTop" class="back-to-top" aria-label="Back to top">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <!-- 图片放大模态框 -->
+  <div id="imgModal" class="img-modal" aria-modal="true" role="dialog" tabindex="-1">
+    <img src="" alt="Zoomed image" id="modalImg">
+  </div>
+
+  <!-- 页脚 -->
+  <footer class="bg-gray-900 text-white py-12 mt-16">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- 联系信息 -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Contact Info</h3>
+          <ul class="space-y-2">
+            <li><i class="fas fa-envelope mr-2"></i> contact@example.com</li>
+            <li><i class="fas fa-phone mr-2"></i> +1 234 567 890</li>
+            <li><i class="fas fa-map-marker-alt mr-2"></i> New York, USA</li>
+          </ul>
+        </div>
+        <!-- 快速链接 -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            <li><a href="index.html" class="hover:text-primary-400 transition-colors">Home</a></li>
+            <li><a href="about.html" class="hover:text-primary-400 transition-colors">About</a></li>
+            <li><a href="projects.html" class="hover:text-primary-400 transition-colors">Projects</a></li>
+            <li><a href="blog.html" class="hover:text-primary-400 transition-colors">Blog</a></li>
+          </ul>
+        </div>
+        <!-- 社交媒体 -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Follow Me</h3>
+          <div class="flex space-x-4">
+            <a href="#" class="text-2xl hover:text-primary-400 transition-colors" aria-label="Github"><i class="fab fa-github"></i></a>
+            <a href="#" class="text-2xl hover:text-primary-400 transition-colors" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="#" class="text-2xl hover:text-primary-400 transition-colors" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-2xl hover:text-primary-400 transition-colors" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+        <p>&copy; 2024 Blue vic Test Web. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- PrismJS for code highlight -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
+  <!-- Custom JavaScript -->
+  <script src="js/main.js"></script>
+  <script>
+    // 代码块复制功能
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const code = this.nextElementSibling.innerText;
+        navigator.clipboard.writeText(code).then(() => {
+          const success = document.createElement('span');
+          success.className = 'copy-success';
+          success.innerText = 'Copied!';
+          this.parentNode.appendChild(success);
+          setTimeout(() => success.remove(), 1200);
+        });
+      });
+    });
+    // 图片放大功能
+    const editorImg = document.querySelector('.editor-img');
+    const imgModal = document.getElementById('imgModal');
+    const modalImg = document.getElementById('modalImg');
+    if(editorImg && imgModal && modalImg) {
+      editorImg.addEventListener('click', function() {
+        modalImg.src = this.src;
+        imgModal.classList.add('open');
+        modalImg.focus();
+      });
+      imgModal.addEventListener('click', function(e) {
+        if(e.target === imgModal) {
+          imgModal.classList.remove('open');
+        }
+      });
+      document.addEventListener('keydown', function(e) {
+        if(e.key === 'Escape') imgModal.classList.remove('open');
+      });
+    }
+    // 返回顶部按钮
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', function() {
+      if(window.scrollY > 300) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    });
+    backToTop.addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html> 

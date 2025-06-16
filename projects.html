@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Project portfolio - Explore featured web development projects, filter by category, and view details.">
+    <title>Projects | Blue vic Test Web</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+      .project-card {
+        transition: box-shadow 0.3s, transform 0.3s;
+      }
+      .project-card:hover {
+        box-shadow: 0 8px 32px 0 rgba(30,58,138,0.15);
+        transform: translateY(-5px);
+      }
+      .project-card .project-img {
+        transition: transform 0.3s;
+      }
+      .project-card:hover .project-img {
+        transform: scale(1.05);
+      }
+      .filter-tag {
+        transition: background 0.2s, color 0.2s;
+      }
+      .filter-tag.selected {
+        background: #3B82F6;
+        color: #fff;
+      }
+      .filter-tag:not(.selected) {
+        background: #F3F4F6;
+        color: #111827;
+      }
+      .github-link {
+        transition: transform 0.3s;
+      }
+      .github-link:hover {
+        transform: rotate(-15deg) scale(1.1);
+      }
+      .fade {
+        transition: opacity 0.4s;
+        opacity: 1;
+      }
+      .fade-out {
+        opacity: 0;
+      }
+      .fade-in {
+        opacity: 1;
+      }
+    </style>
+</head>
+<body class="bg-white text-gray-900">
+    <!-- 导航栏 -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <a href="/" class="flex items-center space-x-2">
+                    <i class="fas fa-code text-primary-600 text-2xl"></i>
+                    <span class="font-montserrat font-bold text-xl">Blue vic Test Web</span>
+                </a>
+                <!-- 桌面端导航菜单 -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-primary-600 transition-colors">Home</a>
+                    <a href="about.html" class="text-gray-700 hover:text-primary-600 transition-colors">About</a>
+                    <a href="projects.html" class="text-primary-600 font-semibold transition-colors">Projects</a>
+                    <a href="blog.html" class="text-gray-700 hover:text-primary-600 transition-colors">Blog</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-primary-600 transition-colors">Contact</a>
+                </div>
+                <!-- 移动端汉堡菜单按钮 -->
+                <button class="md:hidden text-gray-700 hover:text-primary-600 transition-colors" aria-label="Open menu">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主标题区域 -->
+    <section class="pt-24 pb-8">
+        <div class="container mx-auto px-4">
+            <h1 class="text-4xl md:text-5xl font-montserrat font-bold text-[#111827] text-center mb-4">Project Portfolio</h1>
+            <p class="text-lg text-[#4B5563] text-center mb-10">Explore my featured projects by category and technology.</p>
+        </div>
+    </section>
+
+    <!-- 筛选标签栏 -->
+    <section class="mb-10">
+        <div class="container mx-auto px-4 overflow-x-auto">
+            <div id="filterBar" class="flex space-x-3 md:justify-center pb-2">
+                <button class="filter-tag selected px-4 py-2 rounded-full text-sm font-medium focus:outline-none" data-filter="all">All</button>
+                <button class="filter-tag px-4 py-2 rounded-full text-sm font-medium focus:outline-none" data-filter="frontend">Frontend</button>
+                <button class="filter-tag px-4 py-2 rounded-full text-sm font-medium focus:outline-none" data-filter="backend">Backend</button>
+                <button class="filter-tag px-4 py-2 rounded-full text-sm font-medium focus:outline-none" data-filter="fullstack">Fullstack</button>
+                <button class="filter-tag px-4 py-2 rounded-full text-sm font-medium focus:outline-none" data-filter="mobile">Mobile</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 项目卡片网格 -->
+    <main class="container mx-auto px-4">
+        <div id="projectsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16">
+            <!-- 示例项目1 -->
+            <div class="project-card bg-white rounded-lg shadow-md overflow-hidden fade" data-category="fullstack">
+                <div class="relative w-full aspect-w-16 aspect-h-9 bg-gray-100 overflow-hidden">
+                    <picture>
+                        <source srcset="assets/project1.png" type="image/png">
+                        <img src="assets/project1.png" alt="E-commerce Platform" class="project-img w-full h-full object-cover" loading="lazy">
+                    </picture>
+                </div>
+                <div class="p-6 flex flex-col h-full">
+                    <h2 class="text-[18px] font-bold text-[#111827] mb-2">E-commerce Platform</h2>
+                    <p class="text-[14px] text-[#4B5563] mb-4 line-clamp-3">A modern e-commerce platform with real-time inventory, payment integration, and user dashboard.</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="text-xs px-2 py-1 rounded-full bg-[#3B82F6] text-white">React</span>
+                        <span class="text-xs px-2 py-1 rounded-full bg-[#3B82F6] text-white">Node.js</span>
+                        <span class="text-xs px-2 py-1 rounded-full bg-[#3B82F6] text-white">MongoDB</span>
+                    </div>
+                    <div class="flex items-center justify-between mt-auto">
+                        <a href="#" class="text-sm text-[#3B82F6] hover:text-[#1E3A8A] font-medium transition-colors">View details</a>
+                        <a href="#" class="ml-2 github-link text-[#111827] hover:text-[#3B82F6]" aria-label="Github" tabindex="0"><i class="fab fa-github text-xl"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!-- 示例项目2 -->
+            <div class="project-card bg-white rounded-lg shadow-md overflow-hidden fade" data-category="frontend">
+                <div class="relative w-full aspect-w-16 aspect-h-9 bg-gray-100 overflow-hidden">
+                    <picture>
+                        <source srcset="assets/project2.png" type="image/png">
+                        <img src="assets/project2.png" alt="Landing Page Builder" class="project-img w-full h-full object-cover" loading="lazy">
+                    </picture>
+                </div>
+                <div class="p-6 flex flex-col h-full">
+                    <h2 class="text-[18px] font-bold text-[#111827] mb-2">Landing Page Builder</h2>
+                    <p class="text-[14px] text-[#4B5563] mb-4 line-clamp-3">Drag-and-drop builder for marketing teams to create responsive landing pages without coding.</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="text-xs px-2 py-1 rounded-full bg-[#3B82F6] text-white">Vue.js</span>
+                        <span class="text-xs px-2 py-1 rounded-full bg-[#3B82F6] text-white">Tailwind CSS</span>
+                    </div>
+                    <div class="flex items-center justify-between mt-auto">
+                        <a href="#" class="text-sm text-[#3B82F6] hover:text-[#1E3A8A] font-medium transition-colors">View details</a>
+                        <a href="#" class="ml-2 github-link text-[#111827] hover:text-[#3B82F6]" aria-label="Github" tabindex="0"><i class="fab fa-github text-xl"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!-- 示例项目3 -->
+            <div class="project-card bg-white rounded-lg shadow-md overflow-hidden fade" data-category="backend">
+                <div class="relative w-full aspect-w-16 aspect-h-9 bg-gray-100 overflow-hidden">
+                    <picture>
+                        <source srcset="assets/project3.png" type="image/png">
+                        <img src="assets/project3.png" alt="API Gateway" class="project-img w-full h-full object-cover" loading="lazy">
+                    </picture>
+                </div>
+                <div class="p-6 flex flex-col h-full">
+                    <h2 class="text-[18px] font-bold text-[#111827] mb-2">API Gateway</h2>
+                    <p class="text-[14px] text-[#4B5563] mb-4 line-clamp-3">A scalable API gateway for microservices with authentication, rate limiting, and analytics.</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="text-xs px-2 py-1 rounded-full bg-[#3B82F6] text-white">Express</span>
+                        <span class="text-xs px-2 py-1 rounded-full bg-[#3B82F6] text-white">Redis</span>
+                        <span class="text-xs px-2 py-1 rounded-full bg-[#3B82F6] text-white">Docker</span>
+                    </div>
+                    <div class="flex items-center justify-between mt-auto">
+                        <a href="#" class="text-sm text-[#3B82F6] hover:text-[#1E3A8A] font-medium transition-colors">View details</a>
+                        <a href="#" class="ml-2 github-link text-[#111827] hover:text-[#3B82F6]" aria-label="Github" tabindex="0"><i class="fab fa-github text-xl"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!-- 更多项目可按需添加 -->
+        </div>
+        <!-- 加载更多按钮 -->
+        <div class="flex justify-center mt-8 mb-16">
+            <button id="loadMoreBtn" class="px-8 py-3 bg-[#3B82F6] text-white rounded-full font-semibold text-lg shadow-md hover:bg-[#1E3A8A] transition-colors focus:outline-none">Load More</button>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- 联系信息 -->
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Contact Info</h3>
+                    <ul class="space-y-2">
+                        <li><i class="fas fa-envelope mr-2"></i> contact@example.com</li>
+                        <li><i class="fas fa-phone mr-2"></i> +1 234 567 890</li>
+                        <li><i class="fas fa-map-marker-alt mr-2"></i> New York, USA</li>
+                    </ul>
+                </div>
+                <!-- 快速链接 -->
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="hover:text-primary-400 transition-colors">Home</a></li>
+                        <li><a href="about.html" class="hover:text-primary-400 transition-colors">About</a></li>
+                        <li><a href="projects.html" class="hover:text-primary-400 transition-colors">Projects</a></li>
+                        <li><a href="blog.html" class="hover:text-primary-400 transition-colors">Blog</a></li>
+                    </ul>
+                </div>
+                <!-- 社交媒体 -->
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Follow Me</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-2xl hover:text-primary-400 transition-colors" aria-label="Github"><i class="fab fa-github"></i></a>
+                        <a href="#" class="text-2xl hover:text-primary-400 transition-colors" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="text-2xl hover:text-primary-400 transition-colors" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-2xl hover:text-primary-400 transition-colors" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p>&copy; 2024 Blue vic Test Web. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Custom JavaScript -->
+    <script src="js/main.js"></script>
+    <script>
+      // 筛选功能
+      const filterBar = document.getElementById('filterBar');
+      const projectsGrid = document.getElementById('projectsGrid');
+      const filterTags = filterBar.querySelectorAll('.filter-tag');
+      const cards = Array.from(projectsGrid.children);
+      filterBar.addEventListener('click', e => {
+        if (e.target.classList.contains('filter-tag')) {
+          filterTags.forEach(tag => tag.classList.remove('selected'));
+          e.target.classList.add('selected');
+          const filter = e.target.dataset.filter;
+          cards.forEach(card => {
+            card.classList.add('fade-out');
+            setTimeout(() => {
+              if (filter === 'all' || card.dataset.category === filter) {
+                card.style.display = '';
+                setTimeout(() => card.classList.remove('fade-out'), 10);
+              } else {
+                card.style.display = 'none';
+              }
+            }, 400);
+          });
+        }
+      });
+      // 加载更多按钮（示例，无实际加载）
+      document.getElementById('loadMoreBtn').addEventListener('click', function() {
+        this.textContent = 'Loading...';
+        setTimeout(() => {
+          this.textContent = 'No more projects';
+          this.disabled = true;
+          this.classList.add('opacity-60', 'cursor-not-allowed');
+        }, 1200);
+      });
+    </script>
+</body>
+</html> 
